@@ -1,0 +1,65 @@
+-- Insert sample data into publications table with abstract and full content
+INSERT INTO publications (title, abstract, content, author)
+VALUES 
+('Exploring the Depths of Space', 
+ 'A deep dive into the mysteries of space exploration and what lies beyond.',
+ 'In the vast expanse of the universe, humanity has always been fascinated by what lies beyond the stars. The journey to explore space has been filled with monumental achievements and staggering discoveries that have pushed the boundaries of science and human curiosity. From the first steps on the moon to the plans for colonizing Mars, space exploration continues to capture the imagination of people worldwide. This article delves into the history of space exploration, examines the current technologies propelling us into the unknown, and looks forward to the ambitious future of space travel and what it could mean for the survival of the human race.', 
+ 1),
+  
+('The Rise of Artificial Intelligence', 
+ 'How AI is transforming industries and the future it holds.',
+ 'Artificial intelligence (AI) is no longer a concept confined to science fiction. It has transformed industries, reshaped economies, and even changed the way we live. From self-driving cars to medical diagnostics, AI is revolutionizing various sectors by offering speed, precision, and the ability to learn over time. In this article, we explore the history of AI, break down its core components like machine learning and neural networks, and discuss both the positive and negative impacts of AI on our world. With perspectives from industry leaders and researchers, we’ll also take a look at where AI might lead us next.', 
+ 1),
+
+('Top 10 Tips for Aspiring Programmers', 
+ 'A comprehensive guide for beginners entering the world of programming.',
+ 'Learning to program can be a challenging journey, especially for those who are just starting. With so many languages, tools, and resources available, it can be difficult to know where to begin. This guide offers ten essential tips that will set aspiring programmers on the path to success. From choosing the right language to understanding data structures, each tip is designed to help beginners build a strong foundation. The article also includes insights from experienced developers on how to stay motivated, avoid common mistakes, and keep up with the ever-evolving world of technology.', 
+ 1),
+
+('The Evolution of Video Games', 
+ 'From pixelated screens to immersive VR, the journey of gaming evolution.',
+ 'Video games have come a long way since their inception. What started as simple pixelated games has evolved into highly immersive experiences with stunning graphics and complex narratives. This article traces the evolution of video games from early arcade machines to today’s VR and AR experiences. We’ll examine the major technological breakthroughs, influential games, and cultural impact that video games have had over the years. We’ll also explore how gaming is pushing boundaries in storytelling, social interaction, and even professional sports.', 
+ 1),
+
+('Health Benefits of a Plant-Based Diet', 
+ 'An in-depth look at how a plant-based diet can improve overall health.',
+ 'Switching to a plant-based diet has been shown to have numerous health benefits, including reducing the risk of chronic diseases, aiding in weight management, and improving mental clarity. This article explores the science behind plant-based diets, examining the various nutrients and antioxidants that are abundant in plant foods. We also look at studies that support these benefits and provide practical tips for incorporating more plant-based meals into your diet. Interviews with nutrition experts and testimonials from those who have made the switch provide further insight into the positive changes associated with plant-based eating.', 
+ 1),
+
+('Breaking Down Quantum Computing', 
+ 'An introduction to quantum computing and its potential applications.',
+ 'Quantum computing represents a new frontier in computing technology, with the potential to solve problems far beyond the capabilities of classical computers. This article provides a beginner-friendly explanation of quantum mechanics concepts such as superposition and entanglement, which are the backbone of quantum computing. We’ll also explore the potential applications of quantum computers in fields like cryptography, artificial intelligence, and materials science. With input from researchers and industry leaders, we discuss the current state of quantum computing technology and the challenges that lie ahead.', 
+ 1),
+
+('The Future of Renewable Energy', 
+ 'Why renewable energy is the future and how it can combat climate change.',
+ 'As the effects of climate change become increasingly evident, the need for renewable energy sources has never been greater. This article discusses various forms of renewable energy, including solar, wind, hydro, and geothermal power, and their role in reducing greenhouse gas emissions. We examine how technological advancements are making renewable energy more accessible and cost-effective and look at government policies that encourage the transition to clean energy. The article also considers potential obstacles to widespread adoption and how they can be overcome.', 
+ 1),
+
+('Understanding Cryptocurrency', 
+ 'Explaining how cryptocurrencies work and their impact on the economy.',
+ 'Cryptocurrencies have become a global phenomenon, with Bitcoin and Ethereum leading the way. This article breaks down the basics of blockchain technology, the mechanics of how cryptocurrencies are created, and the role they play in decentralized finance. We’ll examine the benefits and risks associated with digital currencies, such as security concerns, volatility, and regulatory issues. By exploring real-world applications and future developments, we aim to provide a comprehensive understanding of how cryptocurrencies are shaping the modern economy.', 
+ 1),
+
+('Top 5 Tourist Destinations for 2024', 
+ 'A travel guide to the best destinations to visit this year.',
+ 'Planning your next vacation? This article highlights the top five must-visit destinations for 2024, chosen for their unique attractions, rich cultures, and beautiful landscapes. From tropical beaches to bustling cityscapes, there’s something for every type of traveler. We include tips on the best times to visit, must-see sights, and hidden gems that only locals know about. Whether you’re looking for adventure, relaxation, or cultural immersion, these destinations are sure to offer unforgettable experiences.', 
+ 1),
+
+('The Art of Minimalism', 
+ 'How adopting a minimalist lifestyle can improve mental well-being.',
+ 'In a world full of excess, minimalism offers a refreshing approach to living with less. This article explores the philosophy behind minimalism, examining how reducing physical and mental clutter can lead to a happier, more fulfilling life. We’ll discuss practical tips on decluttering your space, managing your time effectively, and finding joy in simplicity. Interviews with minimalists and experts in mental health provide insight into how minimalism can improve mental clarity and reduce stress. Whether you’re a beginner or an experienced minimalist, this guide offers valuable tips for adopting a simpler lifestyle.', 
+ 1);
+
+INSERT INTO games (title, description, producer, critics_rate)
+VALUES 
+('Minecraft', 'A sandbox game where players can build, explore, and survive in a blocky 3D world.', 'Mojang Studios', 4.5),
+('The Legend of Zelda: Breath of the Wild', 'An open-world adventure where players explore the kingdom of Hyrule.', 'Nintendo', 4.8),
+('Cyberpunk 2077', 'A futuristic RPG set in a neon-lit dystopian world with deep storytelling.', 'CD Projekt', 2.1),
+('Animal Crossing: New Horizons', 'A life simulation game where players create and manage their own island.', 'Nintendo', 5.0),
+('Red Dead Redemption 2', 'An epic tale of life in America at the dawn of the modern age.', 'Rockstar Games', 4.7),
+('The Witcher 3: Wild Hunt', 'A story-driven open-world RPG set in a visually stunning fantasy universe.', 'CD Projekt', 4.3),
+('Halo Infinite', 'A sci-fi shooter that follows the adventures of Master Chief in a mysterious world.', '343 Industries', 3.2),
+('Super Mario Odyssey', 'A platform adventure where Mario explores unique kingdoms to rescue Princess Peach.', 'Nintendo', 1.4),
+('Fortnite', 'A battle royale game where players fight to be the last one standing on an island.', 'Epic Games', 2.8),
+('Elden Ring', 'An open-world fantasy action RPG created by FromSoftware and George R.R. Martin.', 'FromSoftware', 3.5);
