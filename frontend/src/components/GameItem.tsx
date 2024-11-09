@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Game } from "../pages/GamesPage";
 import { useNavigate } from "react-router-dom";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
 interface GameItemProps {
   game: Game;
@@ -9,6 +11,8 @@ interface GameItemProps {
 
 const GameItem = ({ game }: GameItemProps) => {
   const [userRate, setUserRate] = useState<number | null>(null);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
+
   const { userName } = useAuth();
   const navigate = useNavigate();
   const loggedIn = userName !== "";
@@ -34,7 +38,53 @@ const GameItem = ({ game }: GameItemProps) => {
     }
   }, [game.id, loggedIn]);
 
-  const handleRating = async (rating: number) => {
+  useEffect(() => {
+    const fetchFavouriteStatus = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(`/api/games/${game.id}/favourite`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setIsFavourite(data.isFavourite); // assuming API returns { isFavourite: boolean }
+        }
+      } catch (error) {
+        console.error("Error fetching favourite status:", error);
+      }
+    };
+
+    if (loggedIn) {
+      fetchFavouriteStatus();
+    }
+  }, [game.id, loggedIn]);
+
+  const handleFavourite = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const token = localStorage.getItem("token");
+    try {
+      if (isFavourite) {
+        await fetch(`/api/games/${game.id}/favourite`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } else {
+        await fetch(`/api/games/${game.id}/favourite`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      setIsFavourite(!isFavourite); // toggle favourite status
+    } catch (error) {
+      console.error("Error updating favourite status:", error);
+    }
+  };
+
+  const handleRating = async (rating: number, event: React.MouseEvent) => {
+    event.stopPropagation();
     const token = localStorage.getItem("token");
     if (userRate != null) {
       try {
@@ -81,9 +131,9 @@ const GameItem = ({ game }: GameItemProps) => {
               ? "text-yellow-400"
               : "text-gray-300"
           } ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
-          onClick={() => {
+          onClick={(event) => {
             if (loggedIn) {
-              handleRating(i);
+              handleRating(i, event);
             }
           }}
         >
@@ -97,13 +147,20 @@ const GameItem = ({ game }: GameItemProps) => {
   return (
     <div
       onClick={handleClick}
-      className="flex flex-col items-center cursor-pointer"
+      className="flex flex-col items-center cursor-pointer h-full"
     >
+      <div onClick={handleFavourite} className="absolute top-2 right-2">
+        {isFavourite ? (
+          <HeartIconSolid className="h-5 w-5 text-red-500" />
+        ) : (
+          <HeartIcon className="h-5 w-5 text-gray-300" />
+        )}
+      </div>
       <h2 className="text-xl font-bold text-sky-500 mb-2 line-clamp-1">
         {game.title}
       </h2>
       <p className="line-clamp-3 mb-2">{game.description}</p>
-      <div className="flex w-full justify-between">
+      <div className="flex w-full justify-between mt-auto">
         <p className="text-sm font-medium text-gray-700">
           Critics':
           <span
@@ -137,7 +194,7 @@ const GameItem = ({ game }: GameItemProps) => {
           </span>
         </p>
       </div>
-      <div className="flex gap-1 mt-auto justify-center">{renderStars()}</div>
+      <div className="flex gap-1 justify-center">{renderStars()}</div>
     </div>
   );
 };

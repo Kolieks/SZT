@@ -45,6 +45,13 @@ const Navigation = () => {
             >
               <div>Games</div>
             </NavLink>
+            <NavLink
+              to="/favourites"
+              aria-label="Favourites"
+              className="flex hover:text-sky-500 duration-300 p-2"
+            >
+              <div>Favourites</div>
+            </NavLink>
           </div>
         </div>
 
@@ -94,6 +101,14 @@ const Navigation = () => {
               onClick={toggleMobileMenu}
             >
               <div>Games</div>
+            </NavLink>
+            <NavLink
+              to="/favourites"
+              aria-label="Favourites"
+              className="flex hover:text-sky-500 duration-300 p-3 w-full text-center"
+              onClick={toggleMobileMenu}
+            >
+              <div>Favourites</div>
             </NavLink>
 
             {loggedIn ? (

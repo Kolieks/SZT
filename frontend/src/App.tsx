@@ -8,6 +8,7 @@ import BlogPage from "./pages/BlogPage.tsx";
 import GamesPage from "./pages/GamesPage.tsx";
 import PublicationPage from "./pages/PublicationPage.tsx";
 import GamePage from "./pages/GamePage.tsx";
+import FavouritesPage from "./pages/FavouritesPage.tsx";
 
 const App = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const App = () => {
               <Route path="/game/:id" element={<GamePage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/games" element={<GamesPage />} />
+              <Route path="/favourites" element={<FavouritesPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>

@@ -9,42 +9,51 @@ import Rating from "./Rating";
 import Comment from "./Comment";
 import PublicationVote from "./PublicationVote";
 import CommentVote from "./CommentVote";
+import Favourites from "./Favourites";
 
 // Define associations
 
-// User - Publications (One-to-Many)
+// User - Publications
 User.hasMany(Publication, { foreignKey: "author", as: "publications" });
 Publication.belongsTo(User, { foreignKey: "author", as: "authorDetails" });
 
-// User - Comments (One-to-Many)
+// User - Comments
 User.hasMany(Comment, { foreignKey: "user_id", as: "comments" });
 Comment.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-// User - Ratings (One-to-Many)
+// User - Ratings
 User.hasMany(Rating, { foreignKey: "user_id", as: "ratings" });
 Rating.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-// User - PublicationVotes (One-to-Many)
+// User - PublicationVotes
 User.hasMany(PublicationVote, {
   foreignKey: "user_id",
   as: "publicationVotes",
 });
 PublicationVote.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
-// // Publication - Comments (One-to-Many)
+// // Publication - Comments
 // Publication.hasMany(Comment, { foreignKey: "entity_id", as: "comments" });
 // Comment.belongsTo(Publication, {
 //   foreignKey: "entity_id",
 //   as: "publication",
 // });
-// // Game - Comments (One-to-Many)
+// // Game - Comments
 // Game.hasMany(Comment, { foreignKey: "entity_id", as: "comments" });
 // Comment.belongsTo(Game, {
 //   foreignKey: "entity_id",
 //   as: "game",
 // });
 
-// Publication - PublicationVotes (One-to-Many)
+// User - Favourites
+User.hasMany(Favourites, { foreignKey: "user_id", as: "favourites" });
+Favourites.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+// Game - Favourites
+Game.hasMany(Favourites, { foreignKey: "game_id", as: "favourites" });
+Favourites.belongsTo(Game, { foreignKey: "game_id", as: "game" });
+
+// Publication - PublicationVotes
 Publication.hasMany(PublicationVote, {
   foreignKey: "publication_id",
   as: "votes",
@@ -54,7 +63,7 @@ PublicationVote.belongsTo(Publication, {
   as: "publication",
 });
 
-// Game - Ratings (One-to-Many)
+// Game - Ratings
 Game.hasMany(Rating, { foreignKey: "game_id", as: "ratings" });
 Rating.belongsTo(Game, { foreignKey: "game_id", as: "game" });
 
@@ -76,4 +85,5 @@ export {
   Comment,
   PublicationVote,
   CommentVote,
+  Favourites,
 };

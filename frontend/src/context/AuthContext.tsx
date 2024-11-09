@@ -11,6 +11,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isAdmin: boolean;
   userName: string;
+  userId: number;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, name: string, password: string) => Promise<void>;
   logout: () => void;
@@ -23,6 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState(0);
   const location = useLocation();
 
   const fetchUserInfo = async () => {
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const userInfo = await response.json();
         setIsAdmin(userInfo.isAdmin);
         setUserName(userInfo.name);
+        setUserId(userInfo.id);
       } else {
         console.error("Failed to fetch user info");
       }
@@ -121,6 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isAuthenticated,
         isAdmin,
         userName,
+        userId,
         login,
         register,
         logout,
