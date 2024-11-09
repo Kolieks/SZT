@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import GameItem from "../components/GameItem";
 import { useAuth } from "../context/AuthContext";
-
-export interface Game {
-  id: number;
-  title: string;
-  description: string;
-  criticsRate: number;
-  averageUserRate: number;
-  producer: string;
-  createdAt: Date;
-}
+import { Game } from "./GamesPage";
 
 const FavouritesPage = () => {
   const { userId } = useAuth();
