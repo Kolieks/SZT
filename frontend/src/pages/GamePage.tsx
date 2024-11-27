@@ -89,8 +89,6 @@ const GamePage = () => {
     return;
   }
 
-  console.log(game);
-
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col justify-center items-center mt-10 w-2/3 min-w-[300px]">

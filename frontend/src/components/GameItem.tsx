@@ -47,10 +47,10 @@ const GameItem = ({ game }: GameItemProps) => {
         });
         if (response.ok) {
           const data = await response.json();
-          setIsFavourite(data.isFavourite); // assuming API returns { isFavourite: boolean }
+          setIsFavourite(data.isFavourite);
         }
-      } catch (error) {
-        console.error("Error fetching favourite status:", error);
+      } catch {
+        setIsFavourite(false);
       }
     };
 
@@ -77,7 +77,7 @@ const GameItem = ({ game }: GameItemProps) => {
           },
         });
       }
-      setIsFavourite(!isFavourite); // toggle favourite status
+      setIsFavourite(!isFavourite);
     } catch (error) {
       console.error("Error updating favourite status:", error);
     }

@@ -35,8 +35,10 @@ const FavouritesPage = () => {
       }
     };
 
-    fetchFavourites();
-  }, [visibleCount]);
+    if (userId && !favourites.length) {
+      fetchFavourites();
+    }
+  }, [userId]); // removed visibleCount from dependencies
 
   const loadMore = () => {
     if (visibleCount < favourites.length) {

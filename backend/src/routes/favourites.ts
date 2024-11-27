@@ -20,11 +20,18 @@ router.get("/users/:id/favourites", extractToken, async (request, res) => {
       include: [
         {
           model: Game,
-          attributes: ["title", "description", "producer", "critics_rate"],
-          as: "gameDetails",
+          attributes: [
+            "id",
+            "title",
+            "description",
+            "criticsRate",
+            "averageUserRate",
+          ],
+          order: [["criticsRate", "DESC"]],
+          as: "game",
         },
       ],
-      attributes: ["id", "game_id"],
+      attributes: ["id"],
     });
 
     res.status(200).json(favourites);
@@ -34,14 +41,30 @@ router.get("/users/:id/favourites", extractToken, async (request, res) => {
   }
 });
 
-// Add a game to favourites
-router.post("/games/:id/favourite", extractToken, async (request, res) => {
+// Check if a game is a favourite for the user
+router.get("/games/:id/favourite", extractToken, async (request, res) => {
   const req = request as UserRequest;
   const userId = req.userId;
   const gameId = parseInt(req.params.id, 10);
 
   try {
-    // Check if already in favourites
+    const favourite = await Favourites.findOne({
+      where: { user_id: userId, game_id: gameId },
+    });
+
+    res.status(200).json({ isFavourite: !!favourite });
+  } catch (error) {
+    console.error("Error fetching favourite status:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Set game favourite
+router.post("/games/:id/favourite", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const userId = req.userId;
+  const gameId = parseInt(req.params.id, 10);
+  try {
     const existingFavourite = await Favourites.findOne({
       where: { user_id: userId, game_id: gameId },
     });
