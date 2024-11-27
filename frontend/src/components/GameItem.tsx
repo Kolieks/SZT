@@ -149,13 +149,17 @@ const GameItem = ({ game }: GameItemProps) => {
       onClick={handleClick}
       className="flex flex-col items-center cursor-pointer h-full"
     >
-      <div onClick={handleFavourite} className="absolute top-2 right-2">
+      <button
+        disabled={!loggedIn}
+        onClick={handleFavourite}
+        className="absolute top-2 right-2"
+      >
         {isFavourite ? (
           <HeartIconSolid className="h-5 w-5 text-red-500" />
         ) : (
           <HeartIcon className="h-5 w-5 text-gray-300" />
         )}
-      </div>
+      </button>
       <h2 className="text-xl font-bold text-sky-500 mb-2 line-clamp-1">
         {game.title}
       </h2>

@@ -4,9 +4,14 @@ import GameItem from "../components/GameItem";
 import { useAuth } from "../context/AuthContext";
 import { Game } from "./GamesPage";
 
+interface Favourite {
+  id: number;
+  game: Game;
+}
+
 const FavouritesPage = () => {
   const { userId } = useAuth();
-  const [favourites, setFavourites] = useState<Game[]>([]);
+  const [favourites, setFavourites] = useState<Favourite[]>([]);
   const [visibleCount, setVisibleCount] = useState<number>(6);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -22,7 +27,7 @@ const FavouritesPage = () => {
           },
         });
         if (response.ok) {
-          const data: Game[] = await response.json();
+          const data: Favourite[] = await response.json();
           setFavourites(data);
           setHasMore(data.length > visibleCount);
         } else {
@@ -46,7 +51,6 @@ const FavouritesPage = () => {
       setHasMore(visibleCount + 6 < favourites.length);
     }
   };
-
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8">
@@ -61,7 +65,7 @@ const FavouritesPage = () => {
                 className="border-b border-r p-4 mb-5 border-sky-500 shadow-md shadow-black h-[200px] w-[300px] relative group"
               >
                 <div className="absolute inset-0 border border-transparent group-hover:border-sky-500 pointer-events-none duration-300"></div>
-                <GameItem game={game} />
+                <GameItem game={game.game} />
               </li>
             ))}
           </ul>
