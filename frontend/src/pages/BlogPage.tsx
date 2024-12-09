@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import PublicationItem from "../components/PublicationItem";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export interface Publication {
   id: number;
@@ -19,6 +21,8 @@ const BlogPage = () => {
   const [visibleCount, setVisibleCount] = useState<number>(5);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     const fetchPublications = async () => {
@@ -53,11 +57,17 @@ const BlogPage = () => {
       setHasMore(visibleCount + 5 < publications.length);
     }
   };
+  const handlePublicationCreateButton = () => {
+    navigate(`/publication/create`);
+  };
 
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8">
         <h1 className="text-3xl">Blog</h1>
+        {isAdmin && (
+          <Button onClick={handlePublicationCreateButton}>Create New</Button>
+        )}
         {loading ? (
           <p>Loading publications...</p>
         ) : publications.length > 0 ? (

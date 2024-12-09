@@ -218,4 +218,57 @@ router.delete("/publications/:id", extractToken, async (request, res) => {
   }
 });
 
+// Create a new publication
+router.post("/publications/create", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { title, abstract, content, image } = req.body;
+  const userId = req.userId;
+  if (!title || !abstract || !content) {
+    return res.status(400).json({
+      message: "Title, abstract, and content are required",
+    });
+  }
+
+  try {
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: ["is_admin"],
+    });
+
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this publication" });
+    }
+
+    const newPublication = await Publication.create({
+      title,
+      abstract,
+      content,
+      image,
+      author: userId,
+      likes: 0,
+      dislikes: 0,
+    });
+
+    res.status(201).json({
+      message: "Publication created successfully",
+      publication: {
+        id: newPublication.id,
+        title: newPublication.title,
+        abstract: newPublication.abstract,
+        content: newPublication.content,
+        image: newPublication.image,
+        author: newPublication.author,
+        likes: newPublication.likes,
+        dislikes: newPublication.dislikes,
+        createdAt: newPublication.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating publication:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;
