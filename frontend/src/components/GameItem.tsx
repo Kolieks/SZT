@@ -12,7 +12,7 @@ interface GameItemProps {
 const GameItem = ({ game }: GameItemProps) => {
   const [userRate, setUserRate] = useState<number | null>(null);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
-
+  const [hoveredStar, setHoveredStar] = useState<number | null>(null);
   const { userName } = useAuth();
   const navigate = useNavigate();
   const loggedIn = userName !== "";
@@ -127,10 +127,13 @@ const GameItem = ({ game }: GameItemProps) => {
         <span
           key={i}
           className={`${
-            userRate !== null && userRate >= i
+            (hoveredStar !== null && hoveredStar >= i) ||
+            (hoveredStar === null && userRate !== null && userRate >= i)
               ? "text-yellow-400"
               : "text-gray-300"
           } ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
+          onMouseEnter={() => setHoveredStar(i)}
+          onMouseLeave={() => setHoveredStar(null)}
           onClick={(event) => {
             if (loggedIn) {
               handleRating(i, event);
