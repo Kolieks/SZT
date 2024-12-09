@@ -182,4 +182,40 @@ router.get("/publications/:id", async (req, res) => {
   }
 });
 
+// Delete a specific publication by ID
+router.delete("/publications/:id", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { id } = req.params;
+  const userId = req.userId;
+
+  try {
+    const publication = await Publication.findOne({
+      where: { id },
+      attributes: ["id"],
+    });
+
+    if (!publication) {
+      return res.status(404).json({ message: "Publication not found" });
+    }
+
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: ["is_admin"],
+    });
+
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this publication" });
+    }
+
+    await publication.destroy();
+
+    res.status(200).json({ message: "Publication deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting publication:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;

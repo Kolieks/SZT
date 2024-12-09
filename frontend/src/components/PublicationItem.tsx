@@ -4,6 +4,7 @@ import { Publication } from "../pages/BlogPage";
 import { useNavigate } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { FaceFrownIcon as FaceFrownIconSolid } from "@heroicons/react/24/solid";
 
@@ -15,7 +16,8 @@ const PublicationItem = ({ publication }: PublicationItemProps) => {
   const [userVote, setUserVote] = useState<null | boolean>(null);
   const [likes, setLikes] = useState<number>(publication.likes);
   const [dislikes, setDislikes] = useState<number>(publication.dislikes);
-  const { userName } = useAuth();
+  const [deleted, setDeleted] = useState<boolean>(false);
+  const { userName, isAdmin } = useAuth();
   const navigate = useNavigate();
   const loggedIn = userName != "";
   useEffect(() => {
@@ -87,6 +89,40 @@ const PublicationItem = ({ publication }: PublicationItemProps) => {
     navigate(`/publication/${publication.id}`);
   };
 
+  const handleDeletePublication = async (
+    publicationId: number,
+    event: React.MouseEvent
+  ) => {
+    event.stopPropagation();
+    const token = localStorage.getItem("token");
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this publication?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/api/publications/${publicationId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the publication. Please try again.");
+      }
+      setDeleted(true);
+    } catch (error) {
+      console.error("Error deleting publication:", error);
+      alert("An error occurred while deleting the publication.");
+    }
+  };
+
+  if (deleted) {
+    return <p className="text-gray-500">Publication has been deleted.</p>;
+  }
+
   return (
     <div onClick={handleClick} className="cursor-pointer">
       <div className="h-full absolute inset-0 overflow-hidden -z-10">
@@ -143,6 +179,15 @@ const PublicationItem = ({ publication }: PublicationItemProps) => {
           )}
           <span className="ml-1">{dislikes}</span>
         </button>
+        {isAdmin && (
+          <button
+            className="text-red-600 hover:text-red-800 duration-300 flex items-center"
+            onClick={(event) => handleDeletePublication(publication.id, event)}
+            title="Delete Publication"
+          >
+            <TrashIcon className="h-5 w-5" />
+          </button>
+        )}
         <p className="flex items-center ml-auto text-gray-500">
           By {publication.authorName}
         </p>
