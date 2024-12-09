@@ -131,9 +131,17 @@ const GameItem = ({ game }: GameItemProps) => {
             (hoveredStar === null && userRate !== null && userRate >= i)
               ? "text-yellow-400"
               : "text-gray-300"
-          } ${loggedIn ? "cursor-pointer" : "cursor-default"}`}
-          onMouseEnter={() => setHoveredStar(i)}
-          onMouseLeave={() => setHoveredStar(null)}
+          } ${loggedIn ? "cursor-pointer" : ""}`}
+          onMouseEnter={() => {
+            if (loggedIn) {
+              setHoveredStar(i);
+            }
+          }}
+          onMouseLeave={() => {
+            if (loggedIn) {
+              setHoveredStar(null);
+            }
+          }}
           onClick={(event) => {
             if (loggedIn) {
               handleRating(i, event);

@@ -7,7 +7,7 @@ const Button = ({ children, disabled = false, ...rest }: ButtonProps) => {
     <button
       {...rest}
       disabled={disabled}
-      className={`bg-slate-900 border border-sky-500 px-4 py-2 rounded shadow-sm shadow-black h-[40px] duration-300 ${
+      className={`bg-transparent border border-sky-500 px-4 py-2 rounded shadow-sm shadow-black h-[40px] duration-300 ${
         !disabled
           ? "hover:bg-sky-500 hover:text-black hover:font-bold"
           : "cursor-not-allowed opacity-50"
