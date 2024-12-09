@@ -25,6 +25,7 @@ router.get("/users/:id/favourites", extractToken, async (request, res) => {
             "title",
             "description",
             "criticsRate",
+            "image",
             "averageUserRate",
           ],
           order: [["criticsRate", "DESC"]],

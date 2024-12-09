@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-      @apply bg-slate-900;
-      @apply text-white;
-    }
+  html {
+    @apply bg-slate-900;
+    @apply text-white;
   }
+}

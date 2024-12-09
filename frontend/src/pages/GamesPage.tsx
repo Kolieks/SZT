@@ -9,6 +9,7 @@ export interface Game {
   criticsRate: number;
   averageUserRate: number;
   producer: string;
+  image: string;
   createdAt: Date;
 }
 
@@ -51,7 +52,7 @@ const GamesPage = () => {
       setHasMore(visibleCount + 6 < games.length);
     }
   };
-
+  console.log(games);
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8">
@@ -63,7 +64,7 @@ const GamesPage = () => {
             {games.slice(0, visibleCount).map((game) => (
               <li
                 key={game.id}
-                className="border-b border-r p-4 mb-5 border-sky-500 shadow-md shadow-black h-[200px] w-[300px] relative group"
+                className="border-b border-r pb-4 mb-5 border-sky-500 shadow-md shadow-black h-[200px] w-[300px] relative group"
               >
                 <div className="absolute inset-0 border border-transparent group-hover:border-sky-500 pointer-events-none duration-300"></div>
                 <GameItem game={game} />

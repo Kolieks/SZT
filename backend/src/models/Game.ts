@@ -9,6 +9,7 @@ class Game extends Model {
   public criticsRate!: number | null;
   public averageUserRate!: number;
   public producer!: string;
+  public image!: string;
   public createdAt!: Date;
 }
 
@@ -38,6 +39,11 @@ Game.init(
     producer: {
       type: DataTypes.STRING(128),
       allowNull: false,
+    },
+    image: {
+      type: new DataTypes.STRING(128),
+      defaultValue: 0,
+      allowNull: true,
     },
   },
   {

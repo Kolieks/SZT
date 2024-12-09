@@ -10,6 +10,7 @@ class Publication extends Model {
   public author!: number;
   public likes!: number;
   public dislikes!: number;
+  public image!: string;
   public createdAt!: Date;
   public updatedAt!: Date;
 }
@@ -44,6 +45,11 @@ Publication.init(
     dislikes: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+    },
+    image: {
+      type: new DataTypes.STRING(128),
+      defaultValue: 0,
+      allowNull: true,
     },
   },
   {

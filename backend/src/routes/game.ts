@@ -23,6 +23,7 @@ router.get("/games", async (req, res) => {
         "description",
         "criticsRate",
         "averageUserRate",
+        "image",
       ],
       order: [["criticsRate", "DESC"]],
     });
@@ -121,7 +122,14 @@ router.get("/games/:id", async (req, res) => {
   try {
     const game = await Game.findOne({
       where: { id },
-      attributes: ["id", "title", "description", "producer", "createdAt"],
+      attributes: [
+        "id",
+        "title",
+        "description",
+        "producer",
+        "createdAt",
+        "image",
+      ],
     });
 
     if (!game) {

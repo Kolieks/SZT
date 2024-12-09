@@ -10,6 +10,7 @@ export interface Publication {
   authorName: string;
   likes: number;
   dislikes: number;
+  image: string;
   createdAt: Date;
 }
 

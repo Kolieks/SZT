@@ -147,8 +147,15 @@ const GameItem = ({ game }: GameItemProps) => {
   return (
     <div
       onClick={handleClick}
-      className="flex flex-col items-center cursor-pointer h-full"
+      className="flex flex-col items-center cursor-pointer h-full px-4 pt-2 group"
     >
+      <div className="h-3/5 absolute inset-[1px] overflow-hidden -z-10">
+        <img
+          src={`${game.image}`}
+          className="group-hover:scale-150 duration-300"
+        />
+        <div className="absolute inset-0 bg-black/80"></div>
+      </div>
       <button
         disabled={!loggedIn}
         onClick={handleFavourite}
