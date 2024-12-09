@@ -52,7 +52,6 @@ const GamesPage = () => {
       setHasMore(visibleCount + 6 < games.length);
     }
   };
-  console.log(games);
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8">

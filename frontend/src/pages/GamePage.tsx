@@ -32,7 +32,7 @@ const GamePage = () => {
         } else {
           setError("Failed to fetch game");
         }
-      } catch (error) {
+      } catch {
         setError("An error occurred while fetching the game");
       }
     };

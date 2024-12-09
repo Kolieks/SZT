@@ -32,7 +32,7 @@ const PublicationPage = () => {
         } else {
           setError("Failed to fetch publication");
         }
-      } catch (error) {
+      } catch {
         setError("An error occurred while fetching the publication");
       }
     };
