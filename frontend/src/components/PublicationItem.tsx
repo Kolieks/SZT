@@ -89,6 +89,13 @@ const PublicationItem = ({ publication }: PublicationItemProps) => {
 
   return (
     <div onClick={handleClick} className="cursor-pointer">
+      <div className="h-full absolute inset-0 overflow-hidden -z-10">
+        <img
+          src={`${publication.image}`}
+          className="w-full h-full object-cover object-center group-hover:scale-150 duration-300"
+        />
+        <div className="absolute inset-0 bg-black/70"></div>
+      </div>
       <h2 className="flex items-center justify-between gap-3 text-xl font-bold text-sky-500">
         {publication.title}
         <p className="text-gray-500 font-normal text-base">
