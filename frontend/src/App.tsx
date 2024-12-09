@@ -10,6 +10,7 @@ import PublicationPage from "./pages/PublicationPage.tsx";
 import GamePage from "./pages/GamePage.tsx";
 import FavouritesPage from "./pages/FavouritesPage.tsx";
 import CreatePublicationPage from "./pages/CreatePublicationPage.tsx";
+import CreateGamePage from "./pages/CreateGamePage.tsx";
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +40,7 @@ const App = () => {
                 path="/publication/create"
                 element={<CreatePublicationPage />}
               />
+              <Route path="/game/create" element={<CreateGamePage />} />
               <Route path="/game/:id" element={<GamePage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/games" element={<GamesPage />} />

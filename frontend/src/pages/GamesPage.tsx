@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import GameItem from "../components/GameItem";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export interface Game {
   id: number;
@@ -18,6 +20,8 @@ const GamesPage = () => {
   const [visibleCount, setVisibleCount] = useState<number>(6);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -52,10 +56,18 @@ const GamesPage = () => {
       setHasMore(visibleCount + 6 < games.length);
     }
   };
+
+  const handleGameCreateButton = () => {
+    navigate(`/game/create`);
+  };
+
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8">
         <h1 className="text-3xl">Games</h1>
+        {isAdmin && (
+          <Button onClick={handleGameCreateButton}>Create New</Button>
+        )}
         {loading ? (
           <p>Loading games...</p>
         ) : games.length > 0 ? (

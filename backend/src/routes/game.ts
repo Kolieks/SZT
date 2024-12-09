@@ -179,4 +179,54 @@ router.delete("/games/:id", extractToken, async (request, res) => {
   }
 });
 
+// Create a new game
+router.post("/games/create", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { title, producer, description, image, criticsRate } = req.body;
+  const userId = req.userId;
+
+  if (!title || !producer || !description || !criticsRate) {
+    return res.status(400).json({
+      message: "Title, producer, description and criticsRate are required",
+    });
+  }
+
+  try {
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: ["is_admin"],
+    });
+
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this game" });
+    }
+
+    const newGame = await Game.create({
+      title,
+      producer,
+      description,
+      image,
+      criticsRate,
+    });
+
+    res.status(201).json({
+      message: "Game created successfully",
+      publication: {
+        id: newGame.id,
+        title: newGame.title,
+        description: newGame.description,
+        producer: newGame.producer,
+        image: newGame.image,
+        criticsRate: newGame.criticsRate,
+        createdAt: newGame.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating publication:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 export default router;
