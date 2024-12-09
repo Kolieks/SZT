@@ -179,6 +179,7 @@ const PublicationItem = ({ publication }: PublicationItemProps) => {
           )}
           <span className="ml-1">{dislikes}</span>
         </button>
+        {/* Delete Button */}
         {isAdmin && (
           <button
             className="text-red-600 hover:text-red-800 duration-300 flex items-center"

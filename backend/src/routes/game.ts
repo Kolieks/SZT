@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { extractToken } from "./auth";
 import sequelize from "../config/database";
 
-import { Game, Rating } from "../models";
+import { Game, Rating, User } from "../models";
 dotenv.config();
 
 const router = Router();
@@ -139,6 +139,42 @@ router.get("/games/:id", async (req, res) => {
     res.status(200).json(game);
   } catch (error) {
     console.error("Error fetching game:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Delete a specific game by ID
+router.delete("/games/:id", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { id } = req.params;
+  const userId = req.userId;
+
+  try {
+    const game = await Game.findOne({
+      where: { id },
+      attributes: ["id"],
+    });
+
+    if (!game) {
+      return res.status(404).json({ message: "Game not found" });
+    }
+
+    const user = await User.findOne({
+      where: { id: userId },
+      attributes: ["is_admin"],
+    });
+
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this game" });
+    }
+
+    await game.destroy();
+
+    res.status(200).json({ message: "Game deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting game:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

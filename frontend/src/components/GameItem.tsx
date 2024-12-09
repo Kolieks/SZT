@@ -4,6 +4,7 @@ import { Game } from "../pages/GamesPage";
 import { useNavigate } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 interface GameItemProps {
   game: Game;
@@ -13,7 +14,8 @@ const GameItem = ({ game }: GameItemProps) => {
   const [userRate, setUserRate] = useState<number | null>(null);
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [hoveredStar, setHoveredStar] = useState<number | null>(null);
-  const { userName } = useAuth();
+  const [deleted, setDeleted] = useState<boolean>(false);
+  const { userName, isAdmin } = useAuth();
   const navigate = useNavigate();
   const loggedIn = userName !== "";
 
@@ -155,6 +157,41 @@ const GameItem = ({ game }: GameItemProps) => {
     return stars;
   };
 
+  const handleDeleteGame = async (gameId: number, event: React.MouseEvent) => {
+    event.stopPropagation();
+    const token = localStorage.getItem("token");
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this game?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/api/games/${gameId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the game. Please try again.");
+      }
+      setDeleted(true);
+    } catch (error) {
+      console.error("Error deleting game:", error);
+      alert("An error occurred while deleting the game.");
+    }
+  };
+
+  if (deleted) {
+    return (
+      <p className="text-gray-500 flex justify-center">
+        Game has been deleted.
+      </p>
+    );
+  }
+
   return (
     <div
       onClick={handleClick}
@@ -217,6 +254,16 @@ const GameItem = ({ game }: GameItemProps) => {
         </p>
       </div>
       <div className="flex gap-1 justify-center">{renderStars()}</div>
+      {/* Delete Button */}
+      {isAdmin && (
+        <button
+          className="absolute text-red-600 hover:text-red-800 duration-300 flex items-center right-2 bottom-2"
+          onClick={(event) => handleDeleteGame(game.id, event)}
+          title="Delete Game"
+        >
+          <TrashIcon className="h-5 w-5" />
+        </button>
+      )}
     </div>
   );
 };
