@@ -4,18 +4,22 @@ import { useAuth } from "../context/AuthContext";
 import { Comment } from "../pages/PublicationPage";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import { FaceFrownIcon as FaceFrownIconSolid } from "@heroicons/react/24/solid";
 
 interface CommentItemProps {
   comment: Comment;
+  entityId: number;
+  entityType: number;
 }
 
-const CommentItem = ({ comment }: CommentItemProps) => {
+const CommentItem = ({ comment, entityId, entityType }: CommentItemProps) => {
   const [userVote, setUserVote] = useState<null | boolean>(null);
   const [likes, setLikes] = useState<number>(comment.likes);
   const [dislikes, setDislikes] = useState<number>(comment.dislikes);
-  const { userName } = useAuth();
+  const [deleted, setDeleted] = useState<boolean>(false);
+  const { userName, isAdmin } = useAuth();
   const loggedIn = userName !== "";
 
   useEffect(() => {
@@ -88,6 +92,45 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     }
   };
 
+  const handleDeleteComment = async (commentId: number) => {
+    const token = localStorage.getItem("token");
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this comment?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `/api/${
+          entityType == 0 ? "publications" : "games"
+        }/${entityId}/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the comment. Please try again.");
+      }
+      setDeleted(true);
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      alert("An error occurred while deleting the comment.");
+    }
+  };
+
+  if (deleted) {
+    return (
+      <li className="flex flex-col gap-1 border border-sky-500 p-4 rounded shadow-sm">
+        <p className="text-gray-500">Comment has been deleted.</p>
+      </li>
+    );
+  }
+
   return (
     <li className="flex flex-col gap-1 border border-sky-500 p-4 rounded shadow-sm">
       <div className="break-words">{comment.content}</div>
@@ -135,6 +178,15 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           )}
           <span className="ml-1">{dislikes}</span>
         </button>
+        {isAdmin && (
+          <button
+            className="text-red-600 hover:text-red-800 duration-300 flex items-center ml-auto"
+            onClick={() => handleDeleteComment(comment.id)}
+            title="Delete Comment"
+          >
+            <TrashIcon className="h-5 w-5" />
+          </button>
+        )}
       </div>
     </li>
   );

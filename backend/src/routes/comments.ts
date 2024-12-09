@@ -95,6 +95,49 @@ router.post(
   }
 );
 
+// Delete a specific comment for a publication
+router.delete(
+  "/publications/:publicationId/comments/:commentId",
+  extractToken,
+  async (request, res) => {
+    const req = request as UserRequest;
+    const { publicationId, commentId } = req.params;
+    const userId = req.userId;
+
+    try {
+      const comment = await Comment.findOne({
+        where: {
+          id: parseInt(commentId, 10),
+          entityId: parseInt(publicationId, 10),
+          type: 0,
+        },
+      });
+
+      if (!comment) {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: ["is_admin"],
+      });
+
+      if (!user || !user.dataValues.is_admin) {
+        return res
+          .status(403)
+          .json({ message: "Unauthorized to delete this comment" });
+      }
+
+      await comment.destroy();
+
+      res.status(200).json({ message: "Comment deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
+
 // Get all comments for a specific game
 router.get("/games/:id/comments", async (req, res) => {
   const { id: entityId } = req.params;
@@ -172,6 +215,49 @@ router.post("/games/:id/comments", extractToken, async (request, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// Delete a specific comment for a game
+router.delete(
+  "/games/:gameId/comments/:commentId",
+  extractToken,
+  async (request, res) => {
+    const req = request as UserRequest;
+    const { gameId, commentId } = req.params;
+    const userId = req.userId;
+
+    try {
+      const comment = await Comment.findOne({
+        where: {
+          id: parseInt(commentId, 10),
+          entityId: parseInt(gameId, 10),
+          type: 1,
+        },
+      });
+
+      if (!comment) {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+
+      const user = await User.findOne({
+        where: { id: userId },
+        attributes: ["is_admin"],
+      });
+
+      if (!user || !user.dataValues.is_admin) {
+        return res
+          .status(403)
+          .json({ message: "Unauthorized to delete this comment" });
+      }
+
+      await comment.destroy();
+
+      res.status(200).json({ message: "Comment deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+);
 
 // Get a user's vote on a comment
 router.get("/comments/:id/vote", extractToken, async (request, res) => {

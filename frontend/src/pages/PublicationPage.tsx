@@ -124,7 +124,12 @@ const PublicationPage = () => {
           {comments.length > 0 ? (
             <ul className="mt-4 space-y-4">
               {comments.map((comment) => (
-                <CommentItem key={comment.id} comment={comment} />
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+                  entityId={publication.id}
+                  entityType={0}
+                />
               ))}
             </ul>
           ) : (
