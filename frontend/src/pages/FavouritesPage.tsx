@@ -62,7 +62,7 @@ const FavouritesPage = () => {
             {favourites.slice(0, visibleCount).map((game) => (
               <li
                 key={game.id}
-                className="border-b border-r p-4 mb-5 border-sky-500 shadow-md shadow-black h-[200px] w-[300px] relative group"
+                className="border-b border-r pb-4 mb-5 border-sky-500 shadow-md shadow-black h-[200px] w-[300px] relative group"
               >
                 <div className="absolute inset-0 border border-transparent group-hover:border-sky-500 pointer-events-none duration-300"></div>
                 <GameItem game={game.game} />

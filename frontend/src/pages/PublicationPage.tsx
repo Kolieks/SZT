@@ -92,6 +92,10 @@ const PublicationPage = () => {
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col justify-center items-center mt-10 w-2/3 min-w-[300px]">
+        <div className="fixed inset-0 -z-10">
+          <img src={`${publication.image}`} className="w-full h-full" />
+          <div className="fixed inset-0 bg-black/80"></div>
+        </div>
         <h1 className="text-3xl relative mb-8">
           {publication.title}{" "}
           <p className="text-gray-500 absolute text-base right-0 bottom-[-30px]">
@@ -111,7 +115,7 @@ const PublicationPage = () => {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Write your comment..."
-                className="w-full border p-2 rounded bg-slate-900 border-sky-500"
+                className="w-full border p-2 rounded bg-transparent border-sky-500"
                 rows={4}
               />
               <Button type="submit">Comment</Button>

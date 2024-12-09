@@ -154,7 +154,7 @@ const GameItem = ({ game }: GameItemProps) => {
           src={`${game.image}`}
           className="group-hover:scale-150 duration-300"
         />
-        <div className="absolute inset-0 bg-black/80"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
       </div>
       <button
         disabled={!loggedIn}
