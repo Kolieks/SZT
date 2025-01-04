@@ -218,6 +218,53 @@ router.delete("/publications/:id", extractToken, async (request, res) => {
   }
 });
 
+// Edit an existing publication
+router.put("/publications/:id/edit", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { id } = req.params; // Publication ID
+  const { title, abstract, content, image } = req.body;
+  const userId = req.userId;
+
+  try {
+    const publication = await Publication.findByPk(id);
+
+    if (!publication) {
+      return res.status(404).json({ message: "Publication not found" });
+    }
+    const user = await User.findByPk(userId, {
+      attributes: ["id", "is_admin"],
+    });
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to edit this publication" });
+    }
+
+    if (title) publication.title = title;
+    if (abstract) publication.abstract = abstract;
+    if (content) publication.content = content;
+    if (image) publication.image = image;
+
+    await publication.save();
+
+    res.status(200).json({
+      message: "Publication updated successfully",
+      publication: {
+        id: publication.id,
+        title: publication.title,
+        abstract: publication.abstract,
+        content: publication.content,
+        image: publication.image,
+        updatedAt: publication.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error editing publication:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 // Create a new publication
 router.post("/publications/create", extractToken, async (request, res) => {
   const req = request as UserRequest;

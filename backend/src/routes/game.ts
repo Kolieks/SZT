@@ -179,6 +179,57 @@ router.delete("/games/:id", extractToken, async (request, res) => {
   }
 });
 
+// Edit an existing game
+router.put("/games/:id/edit", extractToken, async (request, res) => {
+  const req = request as UserRequest;
+  const { id } = req.params; // Game ID
+  const { title, description, producer, criticsRate, image } = req.body;
+  const userId = req.userId;
+
+  try {
+    const game = await Game.findByPk(id);
+
+    if (!game) {
+      return res.status(404).json({ message: "Game not found" });
+    }
+
+    const user = await User.findByPk(userId, {
+      attributes: ["id", "is_admin"],
+    });
+
+    if (!user || !user.dataValues.is_admin) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to edit this game" });
+    }
+
+    if (title) game.title = title;
+    if (description) game.description = description;
+    if (producer) game.producer = producer;
+    if (criticsRate !== undefined) game.criticsRate = criticsRate;
+    if (image) game.image = image;
+
+    await game.save();
+
+    res.status(200).json({
+      message: "Game updated successfully",
+      game: {
+        id: game.id,
+        title: game.title,
+        description: game.description,
+        producer: game.producer,
+        criticsRate: game.criticsRate,
+        image: game.image,
+      },
+    });
+  } catch (error) {
+    console.error("Error editing game:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+
 // Create a new game
 router.post("/games/create", extractToken, async (request, res) => {
   const req = request as UserRequest;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 import { Game } from "./GamesPage";
@@ -15,12 +15,13 @@ export interface Comment {
 }
 
 const GamePage = () => {
-  const { userName } = useAuth();
+  const { userName, isAdmin } = useAuth();
   const { id } = useParams<{ id: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -89,6 +90,10 @@ const GamePage = () => {
     return;
   }
 
+  const handleGameEditButton = () => {
+    navigate(`/game/${id}/edit`);
+  };
+
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col justify-center items-center mt-10 w-2/3 min-w-[300px]">
@@ -96,6 +101,9 @@ const GamePage = () => {
           <img src={`${game.image}`} className="w-full h-full" />
           <div className="fixed inset-0 bg-black/80"></div>
         </div>
+        {isAdmin && (
+          <Button onClick={handleGameEditButton}>Edit</Button>
+        )}
         <h1 className="text-3xl relative mb-8">
           {game.title}
           <p className="text-gray-500 absolute text-base right-0 bottom-[-30px]">
