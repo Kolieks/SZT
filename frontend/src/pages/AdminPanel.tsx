@@ -73,9 +73,7 @@ const AdminPanel = () => {
     return (
       <div className="flex w-full h-full p-10 justify-center">
         <div className="flex flex-col justify-center items-center w-full max-w-[1840px]">
-          <div className="text-3xl">
-            Nie masz uprawnień do przeglądania tej strony.
-          </div>
+          <div className="text-3xl">No permission.</div>
         </div>
       </div>
     );
@@ -88,15 +86,15 @@ const AdminPanel = () => {
   return (
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8 relative">
-        <p className="text-3xl">Panel Administracji</p>
+        <p className="text-3xl">Admin Panel</p>
         <div className="relative flex flex-col border border-artwena-yellow rounded px-10 py-5 flex-wrap shadow-sm shadow-black gap-4">
-          <p className="text-xl">Użytkownicy</p>
+          <p className="text-xl">Users</p>
           <table className="table-fixed">
             <thead>
               <tr className="">
                 <th className="text-start text-artwena-yellow pr-2">Email</th>
                 <th className="text-start text-artwena-yellow hidden lg:block pr-2">
-                  Imię
+                  Name
                 </th>
                 <th className="text-start text-artwena-yellow pr-2">Admin</th>
               </tr>
