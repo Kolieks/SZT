@@ -81,7 +81,7 @@ const CreateGamePage = () => {
         </div>
         <div>
           <label htmlFor="description" className="block text-sm font-medium">
-            Producer <span className="text-red-500">*</span>
+            Description <span className="text-red-500">*</span>
           </label>
           <textarea
             id="description"
@@ -107,7 +107,7 @@ const CreateGamePage = () => {
         </div>
         <div>
           <label htmlFor="criticsRate" className="block text-sm font-medium">
-            Producer Rating (1-5) <span className="text-red-500">*</span>
+            Critics Rating (1-5) <span className="text-red-500">*</span>
           </label>
           <input
             id="criticsRate"
