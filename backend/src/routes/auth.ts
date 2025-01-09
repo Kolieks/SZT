@@ -20,9 +20,10 @@ router.post("/register", async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ message: "No email or password" });
   }
+  const lowerCaseEmail = email.toLowerCase();
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({
-    email,
+    lowerCaseEmail,
     name,
     password: hashedPassword,
     isAdmin: false,
@@ -38,8 +39,9 @@ router.post("/login", async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ message: "No email or password" });
   }
+  const lowerCaseEmail = email.toLowerCase();
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { lowerCaseEmail } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
