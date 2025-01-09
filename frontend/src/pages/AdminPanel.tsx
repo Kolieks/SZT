@@ -87,23 +87,23 @@ const AdminPanel = () => {
     <div className="flex w-full h-full p-10 justify-center">
       <div className="flex flex-col justify-center items-center w-full max-w-[1840px] gap-8 relative">
         <p className="text-3xl">Admin Panel</p>
-        <div className="relative flex flex-col border border-artwena-yellow rounded px-10 py-5 flex-wrap shadow-sm shadow-black gap-4">
+        <div className="relative flex flex-col border border-sky-500 rounded px-10 py-5 flex-wrap shadow-sm shadow-black gap-4">
           <p className="text-xl">Users</p>
           <table className="table-fixed">
             <thead>
               <tr className="">
-                <th className="text-start text-artwena-yellow pr-2">Email</th>
-                <th className="text-start text-artwena-yellow hidden lg:block pr-2">
+                <th className="text-start text-sky-500 pr-2">Email</th>
+                <th className="text-start text-sky-500 hidden lg:block pr-2">
                   Name
                 </th>
-                <th className="text-start text-artwena-yellow pr-2">Admin</th>
+                <th className="text-start text-sky-500 pr-2">Admin</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr
                   key={user.id}
-                  className="border-b border-artwena-yellow last:border-none"
+                  className="border-b border-sky-500 last:border-none"
                 >
                   <td className="py-4 pr-2 max-w-[250px] break-words">
                     {user.email}
@@ -114,7 +114,7 @@ const AdminPanel = () => {
                   <td className="py-4 pr-2 text-center">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 accent-artwena-red hover:accent-artwena-yellow duration-300 cursor-pointer"
+                      className="w-5 h-5 accent-sky-500 hover:accent-sky-500 duration-300 cursor-pointer"
                       checked={user.isAdmin}
                       onChange={(e) =>
                         handlePermissionChange(
