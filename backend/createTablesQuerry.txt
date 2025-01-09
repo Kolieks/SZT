@@ -109,7 +109,7 @@ CREATE TABLE favourites (
 
 CREATE TABLE events (
     id SERIAL PRIMARY KEY,
-    date DATE NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL
 );

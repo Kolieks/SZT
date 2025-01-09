@@ -14,6 +14,7 @@ import CreateGamePage from "./pages/CreateGamePage.tsx";
 import EditPublicationPage from "./pages/EditPublicatnionPage.tsx";
 import EditGamePage from "./pages/EditGamePage.tsx";
 import AdminPage from "./pages/AdminPanel.tsx";
+import CreateEventPage from "./pages/CreateEventPage.tsx";
 
 const App = () => {
   const location = useLocation();
@@ -54,6 +55,7 @@ const App = () => {
               <Route path="/games" element={<GamesPage />} />
               <Route path="/favourites" element={<FavouritesPage />} />
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/event/create" element={<CreateEventPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>
