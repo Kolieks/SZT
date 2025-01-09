@@ -7,6 +7,7 @@ import commentsRoutes from "./routes/comments";
 import gameRoutes from "./routes/game";
 import publicationRoutes from "./routes/publication";
 import favouritesRouter from "./routes/favourites";
+import adminRouter from "./routes/admin";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use("/api", gameRoutes);
 app.use("/api", publicationRoutes);
 app.use("/api", commentsRoutes);
 app.use("/api", favouritesRouter);
+app.use("/api", adminRouter);
 app.use(express.static(path.join(__dirname, "../../frontend")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend", "index.html"));

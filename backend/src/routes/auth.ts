@@ -16,32 +16,46 @@ export interface UserRequest extends Request {
 
 // Register
 router.post("/register", async (req, res) => {
-  const { email, name, password } = req.body;
+  let { email, name, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "No email or password" });
   }
-  const lowerCaseEmail = email.toLowerCase();
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await User.create({
-    lowerCaseEmail,
-    name,
-    password: hashedPassword,
-    isAdmin: false,
-    isVisible: true,
-    lastLogin: new Date(),
-  });
-  res.status(201).json(user);
+  email = email.toLowerCase();
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
+  }
+  try {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already in use" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({
+      email,
+      name,
+      password: hashedPassword,
+      isAdmin: false,
+      isVisible: true,
+      lastLogin: new Date(),
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // Login
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "No email or password" });
   }
-  const lowerCaseEmail = email.toLowerCase();
+  email = email.toLowerCase();
   try {
-    const user = await User.findOne({ where: { lowerCaseEmail } });
+    const user = await User.findOne({ where: { email } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }

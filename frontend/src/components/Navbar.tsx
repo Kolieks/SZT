@@ -5,7 +5,7 @@ import Logout from "../assets/logout.svg";
 import { useAuth } from "../context/AuthContext";
 
 const Navigation = () => {
-  const { userName } = useAuth();
+  const { userName, isAdmin } = useAuth();
   const { logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const loggedIn = userName != "";
@@ -51,6 +51,15 @@ const Navigation = () => {
               className="flex hover:text-sky-500 duration-300 p-2"
             >
               <div>Favourites</div>
+            </NavLink>
+            <NavLink
+              to="/admin"
+              aria-label="Admin Panel"
+              className={`flex hover:text-sky-500 duration-300 p-2 ${
+                isAdmin ? "" : "hidden"
+              }`}
+            >
+              <div>Admin Panel</div>
             </NavLink>
           </div>
         </div>
@@ -109,6 +118,16 @@ const Navigation = () => {
               onClick={toggleMobileMenu}
             >
               <div>Favourites</div>
+            </NavLink>
+            <NavLink
+              to="/admin"
+              aria-label="Admin Panel"
+              className={`flex hover:text-sky-500 duration-300 p-3 w-full text-center ${
+                isAdmin ? "" : "hidden"
+              }`}
+              onClick={toggleMobileMenu}
+            >
+              <div>Admin Panel</div>
             </NavLink>
 
             {loggedIn ? (
