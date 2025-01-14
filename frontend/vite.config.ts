@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "http://localhost:8080",
+      "/api": "http://frog02.mikr.us:31256",
     },
   },
   resolve: {

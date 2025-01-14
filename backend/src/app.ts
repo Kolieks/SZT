@@ -22,6 +22,9 @@ app.use("/api", commentsRoutes);
 app.use("/api", favouritesRouter);
 app.use("/api", adminRouter);
 app.use("/api", eventRouter);
+
+const uploadsPath = path.join(__dirname, "../uploads");
+app.use("/uploads", express.static(uploadsPath));
 app.use(express.static(path.join(__dirname, "../../frontend")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend", "index.html"));
