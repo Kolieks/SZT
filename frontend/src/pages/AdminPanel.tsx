@@ -6,6 +6,7 @@ interface User {
   email: string;
   name: string;
   isAdmin: boolean;
+  isVisible: boolean;
 }
 
 const AdminPanel = () => {
@@ -97,6 +98,7 @@ const AdminPanel = () => {
                   Name
                 </th>
                 <th className="text-start text-sky-500 pr-2">Admin</th>
+                <th className="text-start text-sky-500 pr-2">Blocked</th>
               </tr>
             </thead>
             <tbody>
@@ -121,6 +123,20 @@ const AdminPanel = () => {
                           user.id,
                           "isAdmin",
                           e.target.checked
+                        )
+                      }
+                    />
+                  </td>
+                  <td className="py-4 pr-2 text-center">
+                    <input
+                      type="checkbox"
+                      className="w-5 h-5 accent-sky-500 hover:accent-sky-500 duration-300 cursor-pointer"
+                      checked={!user.isVisible}
+                      onChange={(e) =>
+                        handlePermissionChange(
+                          user.id,
+                          "isVisible",
+                          !e.target.checked
                         )
                       }
                     />

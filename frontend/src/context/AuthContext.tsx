@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 interface AuthContextType {
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isVisible: boolean;
   userName: string;
   userId: number;
   login: (email: string, password: string) => Promise<void>;
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState(0);
   const location = useLocation();
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (response.ok) {
         const userInfo = await response.json();
         setIsAdmin(userInfo.isAdmin);
+        setIsVisible(userInfo.isVisible);
         setUserName(userInfo.name);
         setUserId(userInfo.id);
       } else {
@@ -115,6 +118,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
     setIsAdmin(false);
+    setIsVisible(false);
     window.location.reload();
   };
 
@@ -123,6 +127,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         isAuthenticated,
         isAdmin,
+        isVisible,
         userName,
         userId,
         login,

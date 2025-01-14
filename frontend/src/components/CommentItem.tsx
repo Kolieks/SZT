@@ -18,9 +18,28 @@ const CommentItem = ({ comment, entityId, entityType }: CommentItemProps) => {
   const [userVote, setUserVote] = useState<null | boolean>(null);
   const [likes, setLikes] = useState<number>(comment.likes);
   const [dislikes, setDislikes] = useState<number>(comment.dislikes);
+  const [authorVisible, setAuthorVisible] = useState<boolean | null>(null);
   const [deleted, setDeleted] = useState<boolean>(false);
   const { userName, isAdmin } = useAuth();
   const loggedIn = userName !== "";
+
+  useEffect(() => {
+    const fetchAuthorVisibility = async () => {
+      try {
+        const response = await fetch(`/api/user/${comment.userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setAuthorVisible(data.isVisible);
+        } else {
+          console.error("Failed to fetch author visibility.");
+        }
+      } catch (error) {
+        console.error("Error fetching author visibility:", error);
+      }
+    };
+
+    fetchAuthorVisibility();
+  }, [comment.userId]);
 
   useEffect(() => {
     const fetchVoteStatus = async () => {
@@ -127,6 +146,23 @@ const CommentItem = ({ comment, entityId, entityType }: CommentItemProps) => {
     return (
       <li className="flex flex-col gap-1 border border-sky-500 p-4 rounded shadow-sm">
         <p className="text-gray-500">Comment has been deleted.</p>
+      </li>
+    );
+  }
+
+  if (!authorVisible) {
+    return (
+      <li className="flex flex-col gap-1 border border-sky-500 p-4 rounded shadow-sm">
+        <p className="text-gray-500">User has been blocked</p>
+        {isAdmin && (
+          <button
+            className="text-red-600 hover:text-red-800 duration-300 flex items-center ml-auto"
+            onClick={() => handleDeleteComment(comment.id)}
+            title="Delete Comment"
+          >
+            <TrashIcon className="h-5 w-5" />
+          </button>
+        )}
       </li>
     );
   }

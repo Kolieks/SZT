@@ -9,13 +9,14 @@ export interface Comment {
   id: number;
   content: string;
   authorName: string;
+  userId: number;
   createdAt: string;
   likes: number;
   dislikes: number;
 }
 
 const GamePage = () => {
-  const { userName, isAdmin } = useAuth();
+  const { userName, isAdmin, isVisible } = useAuth();
   const { id } = useParams<{ id: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -101,9 +102,7 @@ const GamePage = () => {
           <img src={`${game.image}`} className="w-full h-full" />
           <div className="fixed inset-0 bg-black/80"></div>
         </div>
-        {isAdmin && (
-          <Button onClick={handleGameEditButton}>Edit</Button>
-        )}
+        {isAdmin && <Button onClick={handleGameEditButton}>Edit</Button>}
         <h1 className="text-3xl relative mb-8">
           {game.title}
           <p className="text-gray-500 absolute text-base right-0 bottom-[-30px]">
@@ -126,7 +125,9 @@ const GamePage = () => {
                 className="w-full border p-2 rounded bg-transparent border-sky-500"
                 rows={4}
               />
-              <Button type="submit">Comment</Button>
+              <Button type="submit" disabled={!isVisible}>
+                Comment
+              </Button>
             </form>
           )}
           {comments.length > 0 ? (

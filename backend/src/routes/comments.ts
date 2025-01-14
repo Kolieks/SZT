@@ -34,6 +34,7 @@ router.get("/publications/:id/comments", async (req, res) => {
         "likes",
         "dislikes",
         "createdAt",
+        "userId",
         [sequelize.col("user.name"), "authorName"],
       ],
     });
@@ -83,6 +84,7 @@ router.post(
           "createdAt",
           "likes",
           "dislikes",
+          "userId",
           [sequelize.col("user.name"), "authorName"],
         ],
       });
@@ -159,6 +161,7 @@ router.get("/games/:id/comments", async (req, res) => {
         "likes",
         "dislikes",
         "createdAt",
+        "userId",
         [sequelize.col("user.name"), "authorName"],
       ],
     });
@@ -205,6 +208,7 @@ router.post("/games/:id/comments", extractToken, async (request, res) => {
         "createdAt",
         "likes",
         "dislikes",
+        "userId",
         [sequelize.col("user.name"), "authorName"],
       ],
     });

@@ -116,6 +116,7 @@ router.get("/info", extractToken, async (request, res) => {
       email: user.email,
       name: user.name,
       isAdmin: user.isAdmin,
+      isVisible: user.isVisible,
     });
   } catch (error) {
     console.error("Error fetching user info:", error);

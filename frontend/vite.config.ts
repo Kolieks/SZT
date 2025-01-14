@@ -16,3 +16,5 @@ export default defineConfig({
     },
   },
 });
+//http://frog02.mikr.us:31256
+//http://localhost:8080

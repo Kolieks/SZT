@@ -9,13 +9,14 @@ export interface Comment {
   id: number;
   content: string;
   authorName: string;
+  userId: number;
   createdAt: string;
   likes: number;
   dislikes: number;
 }
 
 const PublicationPage = () => {
-  const { userName, isAdmin } = useAuth();
+  const { userName, isAdmin, isVisible } = useAuth();
   const { id } = useParams<{ id: string }>();
   const [publication, setPublication] = useState<Publication | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -101,9 +102,7 @@ const PublicationPage = () => {
           <img src={`${publication.image}`} className="w-full h-full" />
           <div className="fixed inset-0 bg-black/80"></div>
         </div>
-        {isAdmin && (
-          <Button onClick={handlePublicationEditButton}>Edit</Button>
-        )}
+        {isAdmin && <Button onClick={handlePublicationEditButton}>Edit</Button>}
         <h1 className="text-3xl relative mb-8">
           {publication.title}{" "}
           <p className="text-gray-500 absolute text-base right-0 bottom-[-30px]">
@@ -126,7 +125,9 @@ const PublicationPage = () => {
                 className="w-full border p-2 rounded bg-transparent border-sky-500"
                 rows={4}
               />
-              <Button type="submit">Comment</Button>
+              <Button type="submit" disabled={!isVisible}>
+                Comment
+              </Button>
             </form>
           )}
           {comments.length > 0 ? (
