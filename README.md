@@ -16,3 +16,5 @@ Zeby odpalic frontend:
 - cd frontend
 - npm install
 - npm run dev
+
+Trzeba zrobic chociaz jednego usera z adminem w bazie zeby mogl pozniej rozdawac nastepnym userom adminow
