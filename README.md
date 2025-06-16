@@ -1,6 +1,9 @@
-# SZT
+# Projekt na studia - Systemy Zarządzania Treścią - Forum z grami
+
+# Na potrzeby projektu stworzono frontend, backend oraz bazę danych.
 
 Baza w Postgresql
+
 Querry do stworzenia bazy w folderze /backend/ "createTablesQuerry.sql"
 
 Zeby odpalic backend:
